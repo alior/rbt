@@ -9,7 +9,27 @@ typedef struct W {
 	int kolor;
 } wezel;
 
-void RBFIX(wezel *root, wezel *z){
+wezel* LEFTROTATE(wezel *root, wezel *x){
+	wezel *y=x->right;
+	x->right=x->left; //lewe poddrzewo na prawe
+	y->left->p=x;
+	y->p=x->p;  //ojcem y uczyn ojca x
+	if(x->p==NULL)
+		root=y;
+	else {
+		if (x==x->p->left)
+			x->p->left=y;
+		else x->p->right=y;
+	}
+	y->left=x;
+	x->p=y;
+	return root;
+}
+
+wezel* RIGHTROTATE(wezel *z){
+
+}
+wezel* RBFIX(wezel *root, wezel *z){
 	wezel *y;
 	while(z->p->kolor==RED){
 		if(z->p == z->p->p->left){
@@ -20,12 +40,14 @@ void RBFIX(wezel *root, wezel *z){
 				z->p->p->kolor=RED;
 				z = z->p->p;
 			}
-			else if(z==z->p->right){
+			else{
+				if(z==z->p->right){
 				z=z->p;
-				//LEFTROTATE(root, z)
+				z=LEFTROTATE(root,z);
+				}
 				z->p->kolor=BLACK;
 				z->p->p->kolor=RED;
-				//RIGHTROTATE(root,z->p->p)
+				z=RIGHTROTATE(root,z->p->p);
 			}
 		}
 		else{
@@ -36,16 +58,19 @@ void RBFIX(wezel *root, wezel *z){
 				z->p->p->kolor=RED;
 				z = z->p->p;
 			}
-			else if(z==z->p->left){
+			else{
+				if(z==z->p->left){
 				z=z->p;
-				//RIGHTROTATE(root, z)
+				z=RIGHTROTATE(root, z);
+				}
 				z->p->kolor=BLACK;
 				z->p->p->kolor=RED;
-				//LEFTROTATE(root,z->p->p)
-				}
+				z=LEFTROTATE(root, z->p->p);
 			}
+		}
 	}
-	//return root;
+	root->kolor = BLACK;
+	return root;
 }
 
 wezel* RBinsert(wezel *root,int wartosc) {
@@ -75,7 +100,7 @@ wezel* RBinsert(wezel *root,int wartosc) {
 		else
 			y->right = z;
 	}
-	//RBFIX(root);
+	RBFIX(root,z);
 	return root;
 }
 
