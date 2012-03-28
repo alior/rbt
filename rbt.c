@@ -9,7 +9,7 @@ typedef struct W {
 	int kolor;
 } wezel;
 
-/*void RBFIX(wezel *root, wezel *z){
+void RBFIX(wezel *root, wezel *z){
 	wezel *y;
 	while(z->p->kolor==RED){
 		if(z->p == z->p->p->left){
@@ -46,7 +46,7 @@ typedef struct W {
 			}
 	}
 	//return root;
-}*/
+}
 
 wezel* RBinsert(wezel *root,int wartosc) {
 	if (root!=NULL)
@@ -66,23 +66,23 @@ wezel* RBinsert(wezel *root,int wartosc) {
 	z->left = NULL;
 	z->right = NULL;
 	z->kolor=RED;
-	if(y==NULL)
-		return z;
+	if(y==NULL){
+		root = z;
+	}
 	else {
 		if(z->key < y->key)
 			y->left=z;
 		else
 			y->right = z;
 	}
-	//RBFIX(root, z);
+	//RBFIX(root);
 	return root;
 }
-
 
 void wyswietl(wezel* root) {
 	if (root!=NULL) {
 		printf("%d ",root->key);
-		if(root->kolor==RED)
+		if(root->kolor==RED)   // jaki kolor
 			printf("[style=filled, fillcolor=red]\n");
 		else
 			printf("[style=filled, fillcolor=grat]\n");
