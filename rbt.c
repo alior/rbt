@@ -9,6 +9,11 @@ typedef struct W {
 	int kolor;
 } wezel;
 
+//wezel* FINDFATHER(wezel y, wezel *x){
+//	if(y->left==x || y->right==x)
+//		return y;
+//	y=FINDFATHER(y->left, x);
+//}
 wezel* TREESEARCH(wezel *x, int k){
 	if(x==NULL || k==x->key)
 		return x;
@@ -57,7 +62,7 @@ wezel* LEFTROTATE(wezel *root, wezel *x){
 }
 
 wezel* RIGHTROTATE(wezel *root, wezel *x){
-//  printf("robie rightrotate dla %d %d", root->key, x->key);
+//  printf("robie rightroteate dla %d %d", root->key, x->key);
 	wezel *y=x->left;
 	x->left=y->right; //lewe poddrzewo na prawe
 	if (y->right != NULL)
@@ -75,17 +80,79 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 	return root;
 }
 
-wezel* RBDEL(wezel *root,wezel *z){
+wezel *RBDELFIX(wezel*root, wezel *x){
+	wezel *w;
+	while(x!=root && x->kolor==BLACK){
+		if(x==x->p->left){
+			w=x->p->right;
+			if(w->kolor==RED){
+				w->kolor=BLACK;
+				x->p->kolor=RED;
+				root=LEFTROTATE(root,x->p);
+				w=x->p->right;
+				}
+			if(w->left->kolor==BLACK && w->right->kolor==BLACK){
+				w->kolor=RED;
+				x=x->p;
+			}
+			else{
+				if(w->right->kolor==BLACK){
+					w->left->kolor=BLACK;
+					w->kolor=RED;
+					root=RIGHTROTATE(root,w);
+					w=x->p->right;
+				}
+				w->kolor=x->p->kolor;
+				x->p->kolor=BLACK;
+				w->right->kolor=BLACK;
+				root=LEFTROTATE(root,x->p);
+				x=root;
+			}
+		}
+		else{
+			w=x->p->left;
+			if(w->kolor==RED){
+				w->kolor=BLACK;
+				x->p->kolor=RED;
+				root=RIGHTROTATE(root,x->p);
+				w=x->p->left;
+				}
+			if(w->right->kolor==BLACK && w->left->kolor==BLACK){
+				w->kolor=RED;
+				x=x->p;
+			}
+			else{
+				if(w->left->kolor==BLACK){
+					w->right->kolor=BLACK;
+					w->kolor=RED;
+					root=LEFTROTATE(root,w);
+					w=x->p->left;
+				}
+				w->kolor=x->p->kolor;
+				x->p->kolor=BLACK;
+				w->left->kolor=BLACK;
+				root=RIGHTROTATE(root,x->p);
+				x=root;
+			}
+		}
+	x->kolor=BLACK;
+	return root;
+	}
+}
+
+
+wezel* RBDEL(wezel *root, wezel *z){
 	wezel *x, *y;
 	if(z->left==NULL || z->right==NULL)
 		y=z;
 	else
 		y=TREESUCC(z);
-	if(y->left==NULL)
+	if(y->left!=NULL)
 		x=y->left;
 	else
 		x=y->right;
-	x->p=y->p;
+	if(x!=NULL)
+		x->p=y->p;
 	if(y->p==NULL)
 		root=x;
 	else{
@@ -101,8 +168,8 @@ wezel* RBDEL(wezel *root,wezel *z){
 		z->kolor= y->kolor;
 		z->p= y->p;
 	}
-//	if(y->kolor==BLACK)
-//		RBDELFIX(root,x);
+	if(y->kolor==BLACK)
+		root=RBDELFIX(root,x);
 	return y;
 }
 
@@ -131,7 +198,7 @@ wezel* RBFIX(wezel *root, wezel *z){
 			}
 		}
 		else{
-		  printf("ojciec %d  jest po prawej stronie dziadka \n", z->key);
+		  //printf("ojciec %d  jest po prawej stronie dziadka \n", z->key);
 			y = z->p->p->left;
 			if(y!= NULL && y->kolor==RED){
 				z->p->kolor=BLACK;
@@ -230,7 +297,7 @@ int main() {
 		if(znak=='-'){
 			scanf("%d",&wartosc);
 			zm=RBDEL(root, TREESEARCH(root, wartosc));
-			printf("usunalem %d \n", zm->key);
+			//printf("usunalem %d \n", zm->key);
 		}
 		else if(znak=='p'){
 			printf("digraph G {\n");
