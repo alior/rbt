@@ -9,13 +9,10 @@ typedef struct W {
 	int kolor;
 } wezel;
 
-//wezel* FINDFATHER(wezel y, wezel *x){
-//	if(y->left==x || y->right==x)
-//		return y;
-//	y=FINDFATHER(y->left, x);
-//}
+wezel NIL;
+
 wezel* TREESEARCH(wezel *x, int k){
-	if(x==NULL || k==x->key)
+	if(x==&NIL || k==x->key)
 		return x;
 	if(k< x->key)
 		return TREESEARCH(x->left,k);
@@ -23,7 +20,7 @@ wezel* TREESEARCH(wezel *x, int k){
 		return TREESEARCH(x->right,k);
 }
 wezel* TREEMIN(wezel *x){
-	while(x->left!=NULL){
+	while(x->left!=&NIL){
 		x=x->left;
 	}
 	return x;
@@ -31,10 +28,10 @@ wezel* TREEMIN(wezel *x){
 
 wezel* TREESUCC(wezel *x){
 	wezel *y;
-	if(x->right!=NULL)
+	if(x->right!=&NIL)
 		return TREEMIN(x->right);
 	y=x->p;
-	while(y!=NULL && x==y->right){
+	while(y!=&NIL && x==y->right){
 		x=y;
 		y=y->p;
 	}
@@ -45,10 +42,10 @@ wezel* LEFTROTATE(wezel *root, wezel *x){
 //	printf("robie leftrotate dla %d %d", root->key, x->key);
 	wezel *y=x->right;
 	x->right=y->left; //lewe poddrzewo na prawe
-	if (y->left != NULL)
+	if (y->left != &NIL)
 	  y->left->p=x;
 	y->p=x->p;  //ojcem y uczyn ojca x
-	if(x->p==NULL)
+	if(x->p==&NIL)
 		root=y;
 
 	else {
@@ -65,10 +62,10 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 //  printf("robie rightroteate dla %d %d", root->key, x->key);
 	wezel *y=x->left;
 	x->left=y->right; //lewe poddrzewo na prawe
-	if (y->right != NULL)
+	if (y->right != &NIL)
 	  y->right->p=x;
 	y->p=x->p;  //ojcem y uczyn ojca x
-	if(x->p==NULL)
+	if(x->p==&NIL)
 	  root=y;
 	else {
 	  if (x==x->p->right)
@@ -135,25 +132,24 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 				x=root;
 			}
 		}
+	}
 	x->kolor=BLACK;
 	return root;
-	}
 }
-
+//
 
 wezel* RBDEL(wezel *root, wezel *z){
 	wezel *x, *y;
-	if(z->left==NULL || z->right==NULL)
+	if(z->left==&NIL || z->right==&NIL)
 		y=z;
 	else
 		y=TREESUCC(z);
-	if(y->left!=NULL)
+	if(y->left!=&NIL)
 		x=y->left;
 	else
 		x=y->right;
-	if(x!=NULL)
-		x->p=y->p;
-	if(y->p==NULL)
+	x->p=y->p;
+	if(y->p==&NIL)
 		root=x;
 	else{
 		if(y==y->p->left)
@@ -181,7 +177,7 @@ wezel* RBFIX(wezel *root, wezel *z){
 		if(z->p == z->p->p->left){
 //	printf("ojciec %d  jest po lewej stronie dziadka \n", z->key);
 			y = z->p->p->right;
-			if(y!= NULL && y->kolor==RED){
+			if(y!= &NIL && y->kolor==RED){
 				z->p->kolor=BLACK;
 				y->kolor=BLACK;
 				z->p->p->kolor=RED;
@@ -200,7 +196,7 @@ wezel* RBFIX(wezel *root, wezel *z){
 		else{
 		  //printf("ojciec %d  jest po prawej stronie dziadka \n", z->key);
 			y = z->p->p->left;
-			if(y!= NULL && y->kolor==RED){
+			if(y!= &NIL && y->kolor==RED){
 				z->p->kolor=BLACK;
 				y->kolor=BLACK;
 				z->p->p->kolor=RED;
@@ -225,12 +221,12 @@ wezel* RBFIX(wezel *root, wezel *z){
 
 wezel* RBinsert(wezel *root,int wartosc) {
 //  printf("Dodaje %d do drzewa\n",wartosc);
-//	if (root!=NULL)
+//	if (root!=&NIL)
 //		printf("root ma wartosc %d\n",root->key);
 	wezel *y, *x, *z;
-	y=NULL;
+	y=&NIL;
 	x=root;
-	while(x!=NULL) {
+	while(x!=&NIL) {
 		y=x;
 		if(wartosc < x->key)
 			x= x->left;
@@ -239,10 +235,10 @@ wezel* RBinsert(wezel *root,int wartosc) {
 	z = malloc(sizeof(wezel));
 	z->p = y;
 	z->key = wartosc;
-	z->left = NULL;
-	z->right = NULL;
+	z->left = &NIL;
+	z->right = &NIL;
 	z->kolor=RED;
-	if(y==NULL){
+	if(y==&NIL){
 		root=z;
 	}
 	else {
@@ -252,28 +248,29 @@ wezel* RBinsert(wezel *root,int wartosc) {
 			y->right = z;
 	}
 	root=RBFIX(root,z);
+	root->p=&NIL;
 	return root;
 }
 
 void wyswietl(wezel* root) {
-	if (root!=NULL) {
+	if (root!=&NIL) {
 		printf("%d ",root->key);
 		if(root->kolor==RED)   // jaki kolor
 			printf("[style=filled, fillcolor=red]\n");
 		else
 			printf("[style=filled, fillcolor=gray]\n");
-		if (root->left!=NULL || root->right!=NULL) {
-			if (root->left!=NULL ) {
+		if (root->left!=&NIL || root->right!=&NIL) {
+			if (root->left!=&NIL ) {
 				printf("%d->%d;",root->key, root->left->key);
 			}
-			if (root->right!=NULL ) {
+			if (root->right!=&NIL ) {
 				printf("%d->%d;",root->key,root->right->key);
 			}
 			printf("\n");
-			if (root->left!=NULL ) {
+			if (root->left!=&NIL ) {
 				wyswietl(root->left);
 			}
-			if (root->right!=NULL ) {
+			if (root->right!=&NIL ) {
 				wyswietl(root->right);
 			}
 		}
@@ -283,13 +280,16 @@ void wyswietl(wezel* root) {
 int main() {
 	int wartosc;
 	char znak;
-	wezel *root=NULL, *zm=NULL;
+	wezel *root=&NIL, *zm=&NIL;
+	NIL.key=-1;
+	NIL.left=&NIL;
+	NIL.right=&NIL;
 	//printf("Co chcesz zrobic? ");
 	while(znak!='x') {
 		scanf("%c", &znak);
 		if(znak=='+'){
 			scanf("%d",&wartosc);
-			if(TREESEARCH(root, wartosc)==NULL)  // spr czy klucz juz istnieje
+			if(TREESEARCH(root, wartosc)==&NIL)  // spr czy klucz juz istnieje
 				root = RBinsert(root,wartosc);
 			else
 				printf("BLAD! taki klucz juz istnieje \n");
@@ -297,7 +297,7 @@ int main() {
 		if(znak=='-'){
 			scanf("%d",&wartosc);
 			zm=RBDEL(root, TREESEARCH(root, wartosc));
-			//printf("usunalem %d \n", zm->key);
+			printf("usunalem %d \n", zm->key);
 		}
 		else if(znak=='p'){
 			printf("digraph G {\n");
