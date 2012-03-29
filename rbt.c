@@ -10,7 +10,7 @@ typedef struct W {
 } wezel;
 
 wezel* LEFTROTATE(wezel *root, wezel *x){
-  printf("robie leftrotate dla %d %d", root->key, x->key);
+//  printf("robie leftrotate dla %d %d", root->key, x->key);
 	wezel *y=x->right;
 	x->right=y->left; //lewe poddrzewo na prawe
 	if (y->left != NULL)
@@ -30,7 +30,7 @@ wezel* LEFTROTATE(wezel *root, wezel *x){
 }
 
 wezel* RIGHTROTATE(wezel *root, wezel *x){
-  printf("robie rightrotate dla %d %d", root->key, x->key);
+//  printf("robie rightrotate dla %d %d", root->key, x->key);
 	wezel *y=x->left;
 	x->left=y->right; //lewe poddrzewo na prawe
 	if (y->right != NULL)
@@ -51,10 +51,10 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 wezel* RBFIX(wezel *root, wezel *z){
 	wezel *y;
 
-	printf("RBFIX dla (%d,%d)\n", root->key, z->key);
+//	printf("RBFIX dla (%d,%d)\n", root->key, z->key);
 	while(root!=z && z->p->kolor==RED){
 		if(z->p == z->p->p->left){
-	/printf("ojciec %d  jest po lewej stronie dziadka \n", z->key);
+//	printf("ojciec %d  jest po lewej stronie dziadka \n", z->key);
 			y = z->p->p->right;
 			if(y!= NULL && y->kolor==RED){
 				z->p->kolor=BLACK;
@@ -73,7 +73,7 @@ wezel* RBFIX(wezel *root, wezel *z){
 			}
 		}
 		else{
-		  printf("ojciec %d  jest po prawej stronie dziadka \n", z->key);
+//		  printf("ojciec %d  jest po prawej stronie dziadka \n", z->key);
 			y = z->p->p->left;
 			if(y!= NULL && y->kolor==RED){
 				z->p->kolor=BLACK;
@@ -82,9 +82,9 @@ wezel* RBFIX(wezel *root, wezel *z){
 				z = z->p->p;
 			}
 			else {
-			  printf("Po lewej stronie dziadka jest czarny wezel\n");
+//			  printf("Po lewej stronie dziadka jest czarny wezel\n");
 			  if(z==z->p->left){
-			    printf("%d jest lewym synem %d\n", z->key, z->p->key);
+//			    printf("%d jest lewym synem %d\n", z->key, z->p->key);
 			    z=z->p;
 			    root=RIGHTROTATE(root, z);
 			  }
@@ -99,9 +99,9 @@ wezel* RBFIX(wezel *root, wezel *z){
 }
 
 wezel* RBinsert(wezel *root,int wartosc) {
-  printf("Dodaje %d do drzewa\n",wartosc);
-	if (root!=NULL)
-		printf("root ma wartosc %d\n",root->key);
+//  printf("Dodaje %d do drzewa\n",wartosc);
+//	if (root!=NULL)
+//		printf("root ma wartosc %d\n",root->key);
 	wezel *y, *x, *z;
 	y=NULL;
 	x=root;
