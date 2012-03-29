@@ -75,6 +75,37 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 	return root;
 }
 
+wezel* RBDEL(wezel *root,wezel *z){
+	wezel *x, *y;
+	if(z->left==NULL || z->right==NULL)
+		y=z;
+	else
+		y=TREESUCC(z);
+	if(y->left==NULL)
+		x=y->left;
+	else
+		x=y->right;
+	x->p=y->p;
+	if(y->p==NULL)
+		root=x;
+	else{
+		if(y==y->p->left)
+			y->p->left=x;
+		else
+			y->p->right=x;
+	}
+	if(y!=z){
+		z->key=y->key;
+		z->left= y->left;
+		z->right= y->right;
+		z->kolor= y->kolor;
+		z->p= y->p;
+	}
+//	if(y->kolor==BLACK)
+//		RBDELFIX(root,x);
+	return y;
+}
+
 wezel* RBFIX(wezel *root, wezel *z){
 	wezel *y;
 
@@ -100,7 +131,7 @@ wezel* RBFIX(wezel *root, wezel *z){
 			}
 		}
 		else{
-//		  printf("ojciec %d  jest po prawej stronie dziadka \n", z->key);
+		  printf("ojciec %d  jest po prawej stronie dziadka \n", z->key);
 			y = z->p->p->left;
 			if(y!= NULL && y->kolor==RED){
 				z->p->kolor=BLACK;
@@ -196,11 +227,10 @@ int main() {
 			else
 				printf("BLAD! taki klucz juz istnieje \n");
 		}
-		if(znak=='n'){
+		if(znak=='-'){
 			scanf("%d",&wartosc);
-			zm=TREESEARCH(root, wartosc);
-			zm=TREESUCC(zm);
-			printf("nastepnikiem %d jest %d \n", wartosc, zm->key);
+			zm=RBDEL(root, TREESEARCH(root, wartosc));
+			printf("usunalem %d \n", zm->key);
 		}
 		else if(znak=='p'){
 			printf("digraph G {\n");
