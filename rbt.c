@@ -9,6 +9,14 @@ typedef struct W {
 	int kolor;
 } wezel;
 
+wezel* TREESEARCH(wezel *x, k){
+	if(x==NULL || k==x->key)
+		return x;
+	if(k< x->key)
+		return TREESEARCH(x->left,k);
+	else
+		return TREESEARCH(x->right,k);
+}
 wezel* TREEMIN(wezel *x){
 	while(x->left!=0)
 		x=x->left;
@@ -27,7 +35,7 @@ wezel* TREESUCC(wezel *x){
 }
 
 wezel* LEFTROTATE(wezel *root, wezel *x){
-	//printf("robie leftrotate dla %d %d", root->key, x->key);
+//	printf("robie leftrotate dla %d %d", root->key, x->key);
 	wezel *y=x->right;
 	x->right=y->left; //lewe poddrzewo na prawe
 	if (y->left != NULL)
@@ -175,13 +183,19 @@ void wyswietl(wezel* root) {
 int main() {
 	int wartosc;
 	char znak;
-	wezel *root=NULL;
+	wezel *root=NULL, *zm=NULL;
 	//printf("Co chcesz zrobic? ");
 	while(znak!='x') {
 		scanf("%c", &znak);
 		if(znak=='+'){
 			scanf("%d",&wartosc);
 			root = RBinsert(root,wartosc);
+		}
+		if(znak=='n'){
+			scanf("%d",&wartosc);
+			zm=TREESEARCH(root, wartosc);
+			TREESUCC(zm);
+			printf("nastepnik to %d", zm->key);
 		}
 		else if(znak=='p'){
 			printf("\n\ndigraph G {\n");
