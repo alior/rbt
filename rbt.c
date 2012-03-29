@@ -203,9 +203,9 @@ int main() {
 			printf("nastepnikiem %d jest %d \n", wartosc, zm->key);
 		}
 		else if(znak=='p'){
-			printf("\n\ndigraph G {\n");
+			printf("digraph G {\n");
 			wyswietl(root);
-			printf("}\n\n");
+			printf("}\n");
 		}
 	}
 	//printf("Narazie..");
