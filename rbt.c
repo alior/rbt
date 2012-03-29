@@ -10,9 +10,11 @@ typedef struct W {
 } wezel;
 
 wezel* LEFTROTATE(wezel *root, wezel *x){
+  printf("robie leftrotate dla %d %d", root->key, x->key);
 	wezel *y=x->right;
-	x->right=x->left; //lewe poddrzewo na prawe
-	y->left->p=x;
+	x->right=y->left; //lewe poddrzewo na prawe
+	if (y->left != NULL)
+	  y->left->p=x;
 	y->p=x->p;  //ojcem y uczyn ojca x
 	if(x->p==NULL)
 		root=y;
@@ -28,16 +30,18 @@ wezel* LEFTROTATE(wezel *root, wezel *x){
 }
 
 wezel* RIGHTROTATE(wezel *root, wezel *x){
+  printf("robie rightrotate dla %d %d", root->key, x->key);
 	wezel *y=x->left;
-	x->left=x->right; //lewe poddrzewo na prawe
-	y->right->p=x;
+	x->left=y->right; //lewe poddrzewo na prawe
+	if (y->right != NULL)
+	  y->right->p=x;
 	y->p=x->p;  //ojcem y uczyn ojca x
 	if(x->p==NULL)
-		root=y;
+	  root=y;
 	else {
-		if (x==x->p->right)
-			x->p->right=y;
-		else x->p->left=y;
+	  if (x==x->p->right)
+	    x->p->right=y;
+	  else x->p->left=y;
 	}
 	y->right=x;
 	x->p=y;
@@ -47,10 +51,12 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 wezel* RBFIX(wezel *root, wezel *z){
 	wezel *y;
 
+	printf("RBFIX dla (%d,%d)\n", root->key, z->key);
 	while(root!=z && z->p->kolor==RED){
 		if(z->p == z->p->p->left){
+	/printf("ojciec %d  jest po lewej stronie dziadka \n", z->key);
 			y = z->p->p->right;
-			if(y->kolor==RED){
+			if(y!= NULL && y->kolor==RED){
 				z->p->kolor=BLACK;
 				y->kolor=BLACK;
 				z->p->p->kolor=RED;
@@ -67,21 +73,24 @@ wezel* RBFIX(wezel *root, wezel *z){
 			}
 		}
 		else{
+		  printf("ojciec %d  jest po prawej stronie dziadka \n", z->key);
 			y = z->p->p->left;
-			if(y->kolor==RED){
+			if(y!= NULL && y->kolor==RED){
 				z->p->kolor=BLACK;
 				y->kolor=BLACK;
 				z->p->p->kolor=RED;
 				z = z->p->p;
 			}
-			else{
-				if(z==z->p->left){
-				z=z->p;
-				root=RIGHTROTATE(root, z);
-				}
-				z->p->kolor=BLACK;
-				z->p->p->kolor=RED;
-				root=LEFTROTATE(root, z->p->p);
+			else {
+			  printf("Po lewej stronie dziadka jest czarny wezel\n");
+			  if(z==z->p->left){
+			    printf("%d jest lewym synem %d\n", z->key, z->p->key);
+			    z=z->p;
+			    root=RIGHTROTATE(root, z);
+			  }
+			  z->p->kolor=BLACK;
+			  z->p->p->kolor=RED;
+			  root=LEFTROTATE(root, z->p->p);
 			}
 		}
 	}
@@ -90,6 +99,7 @@ wezel* RBFIX(wezel *root, wezel *z){
 }
 
 wezel* RBinsert(wezel *root,int wartosc) {
+  printf("Dodaje %d do drzewa\n",wartosc);
 	if (root!=NULL)
 		printf("root ma wartosc %d\n",root->key);
 	wezel *y, *x, *z;
@@ -157,9 +167,9 @@ int main() {
 			root = RBinsert(root,wartosc);
 		}
 		else if(znak=='p'){
-			printf("digraph G {\n");
+			printf("\n\ndigraph G {\n");
 			wyswietl(root);
-			printf("}");
+			printf("}\n\n");
 		}
 //		printf("\n")
 	}
