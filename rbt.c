@@ -44,7 +44,7 @@ void RIGHTROTATE(wezel *root, wezel *x){
 
 wezel* RBFIX(wezel *root, wezel *z){
 	wezel *y;
-	while(z->p->kolor==RED && root!=z){
+	while(z->p->kolor==RED){
 		if(z->p == z->p->p->left){
 			y = z->p->p->right;
 			if(y->kolor==RED){
