@@ -18,15 +18,17 @@ wezel* TREESEARCH(wezel *x, int k){
 		return TREESEARCH(x->right,k);
 }
 wezel* TREEMIN(wezel *x){
-	while(x->left!=0)
+	while(x->left!=NULL){
 		x=x->left;
+	}
 	return x;
 }
 
 wezel* TREESUCC(wezel *x){
-	wezel *y=x->p;
+	wezel *y;
 	if(x->right!=NULL)
-		return TREEMIN(x);
+		return TREEMIN(x->right);
+	y=x->p;
 	while(y!=NULL && x==y->right){
 		x=y;
 		y=y->p;
@@ -189,20 +191,22 @@ int main() {
 		scanf("%c", &znak);
 		if(znak=='+'){
 			scanf("%d",&wartosc);
-			root = RBinsert(root,wartosc);
+			if(TREESEARCH(root, wartosc)==NULL)  // spr czy klucz juz istnieje
+				root = RBinsert(root,wartosc);
+			else
+				printf("BLAD! taki klucz juz istnieje \n");
 		}
 		if(znak=='n'){
 			scanf("%d",&wartosc);
 			zm=TREESEARCH(root, wartosc);
-			TREESUCC(zm);
-			printf("nastepnikiem %d jest %d", wartosc, zm->key);
+			zm=TREESUCC(zm);
+			printf("nastepnikiem %d jest %d \n", wartosc, zm->key);
 		}
 		else if(znak=='p'){
 			printf("\n\ndigraph G {\n");
 			wyswietl(root);
 			printf("}\n\n");
 		}
-		//printf("\n")
 	}
 	//printf("Narazie..");
 	return 0;
