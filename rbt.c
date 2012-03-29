@@ -9,6 +9,23 @@ typedef struct W {
 	int kolor;
 } wezel;
 
+wezel* TREEMIN(wezel *x){
+	while(x->left!=0)
+		x=x->left;
+	return x;
+}
+
+wezel* TREESUCC(wezel *x){
+	if(x->right!=NULL)
+		return TREEMIN(x);
+	wezel *y=x->p;
+	while(y!=NULL && x==y->right){
+		x=y;
+		y=y->p;
+	}
+	return y;
+}
+
 wezel* LEFTROTATE(wezel *root, wezel *x){
 //  printf("robie leftrotate dla %d %d", root->key, x->key);
 	wezel *y=x->right;
@@ -159,7 +176,7 @@ int main() {
 	int wartosc;
 	char znak;
 	wezel *root=NULL;
-	printf("Co chcesz zrobic? ");
+	//printf("Co chcesz zrobic? ");
 	while(znak!='x') {
 		scanf("%c", &znak);
 		if(znak=='+'){
@@ -171,8 +188,8 @@ int main() {
 			wyswietl(root);
 			printf("}\n\n");
 		}
-//		printf("\n")
+		//printf("\n")
 	}
-	printf("Narazie..");
+	//printf("Narazie..");
 	return 0;
 }
