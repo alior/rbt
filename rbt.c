@@ -9,7 +9,7 @@ typedef struct W {
 	int kolor;
 } wezel;
 
-wezel* LEFTROTATE(wezel *root, wezel *x){
+void LEFTROTATE(wezel *root, wezel *x){
 	wezel *y=x->right;
 	x->right=x->left; //lewe poddrzewo na prawe
 	y->left->p=x;
@@ -23,15 +23,28 @@ wezel* LEFTROTATE(wezel *root, wezel *x){
 	}
 	y->left=x;
 	x->p=y;
-	return root;
-}
-
-wezel* RIGHTROTATE(wezel *z){
 
 }
+
+void RIGHTROTATE(wezel *root, wezel *x){
+	wezel *y=x->left;
+		x->left=x->right; //lewe poddrzewo na prawe
+		y->right->p=x;
+		y->p=x->p;  //ojcem y uczyn ojca x
+		if(x->p==NULL)
+			root=y;
+		else {
+			if (x==x->p->right)
+				x->p->right=y;
+			else x->p->left=y;
+		}
+		y->right=x;
+		x->p=y;
+}
+
 wezel* RBFIX(wezel *root, wezel *z){
 	wezel *y;
-	while(z->p->kolor==RED){
+	while(z->p->kolor==RED && root!=z){
 		if(z->p == z->p->p->left){
 			y = z->p->p->right;
 			if(y->kolor==RED){
@@ -43,11 +56,11 @@ wezel* RBFIX(wezel *root, wezel *z){
 			else{
 				if(z==z->p->right){
 				z=z->p;
-				z=LEFTROTATE(root,z);
+				LEFTROTATE(root,z);
 				}
 				z->p->kolor=BLACK;
 				z->p->p->kolor=RED;
-				z=RIGHTROTATE(root,z->p->p);
+				RIGHTROTATE(root,z->p->p);
 			}
 		}
 		else{
@@ -61,11 +74,11 @@ wezel* RBFIX(wezel *root, wezel *z){
 			else{
 				if(z==z->p->left){
 				z=z->p;
-				z=RIGHTROTATE(root, z);
+				RIGHTROTATE(root, z);
 				}
 				z->p->kolor=BLACK;
 				z->p->p->kolor=RED;
-				z=LEFTROTATE(root, z->p->p);
+				LEFTROTATE(root, z->p->p);
 			}
 		}
 	}
@@ -92,7 +105,7 @@ wezel* RBinsert(wezel *root,int wartosc) {
 	z->right = NULL;
 	z->kolor=RED;
 	if(y==NULL){
-		root = z;
+		root=z;
 	}
 	else {
 		if(z->key < y->key)
@@ -100,7 +113,7 @@ wezel* RBinsert(wezel *root,int wartosc) {
 		else
 			y->right = z;
 	}
-	RBFIX(root,z);
+	root=RBFIX(root,z);
 	return root;
 }
 
@@ -110,7 +123,7 @@ void wyswietl(wezel* root) {
 		if(root->kolor==RED)   // jaki kolor
 			printf("[style=filled, fillcolor=red]\n");
 		else
-			printf("[style=filled, fillcolor=grat]\n");
+			printf("[style=filled, fillcolor=gray]\n");
 		if (root->left!=NULL || root->right!=NULL) {
 			if (root->left!=NULL ) {
 				printf("%d->%d;",root->key, root->left->key);
