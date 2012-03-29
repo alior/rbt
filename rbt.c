@@ -9,7 +9,7 @@ typedef struct W {
 	int kolor;
 } wezel;
 
-wezel* TREESEARCH(wezel *x, k){
+wezel* TREESEARCH(wezel *x, int k){
 	if(x==NULL || k==x->key)
 		return x;
 	if(k< x->key)
@@ -195,7 +195,7 @@ int main() {
 			scanf("%d",&wartosc);
 			zm=TREESEARCH(root, wartosc);
 			TREESUCC(zm);
-			printf("nastepnik to %d", zm->key);
+			printf("nastepnikiem %d jest %d", wartosc, zm->key);
 		}
 		else if(znak=='p'){
 			printf("\n\ndigraph G {\n");
