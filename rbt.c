@@ -16,9 +16,9 @@ wezel* TREEMIN(wezel *x){
 }
 
 wezel* TREESUCC(wezel *x){
+	wezel *y=x->p;
 	if(x->right!=NULL)
 		return TREEMIN(x);
-	wezel *y=x->p;
 	while(y!=NULL && x==y->right){
 		x=y;
 		y=y->p;
@@ -27,7 +27,7 @@ wezel* TREESUCC(wezel *x){
 }
 
 wezel* LEFTROTATE(wezel *root, wezel *x){
-//  printf("robie leftrotate dla %d %d", root->key, x->key);
+	//printf("robie leftrotate dla %d %d", root->key, x->key);
 	wezel *y=x->right;
 	x->right=y->left; //lewe poddrzewo na prawe
 	if (y->left != NULL)
