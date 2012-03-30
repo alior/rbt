@@ -284,6 +284,7 @@ int main() {
 	NIL.key=-1;
 	NIL.left=&NIL;
 	NIL.right=&NIL;
+	NIL.kolor=BLACK;
 	//printf("Co chcesz zrobic? ");
 	while(znak!='x') {
 		scanf("%c", &znak);
@@ -297,9 +298,9 @@ int main() {
 		if(znak=='-'){
 			scanf("%d",&wartosc);
 			zm=RBDEL(root, TREESEARCH(root, wartosc));
-			printf("usunalem %d \n", zm->key);
+			//printf("usunalem %d \n", zm->key);
 		}
-		else if(znak=='p'){
+		if(znak=='p'){
 			printf("digraph G {\n");
 			wyswietl(root);
 			printf("}\n");
