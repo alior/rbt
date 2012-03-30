@@ -184,7 +184,7 @@ wezel* RBDEL(wezel *root, wezel *z){
 	if(y->kolor==BLACK)
 		root=RBDELFIX(root,x);
 	printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
-	return y;
+	return root;
 }
 
 wezel* RBFIX(wezel *root, wezel *z){
@@ -315,7 +315,7 @@ int main() {
 		}
 		if(znak=='-'){
 			scanf("%d",&wartosc);
-			zm=RBDEL(root, TREESEARCH(root, wartosc));
+			root=RBDEL(root, TREESEARCH(root, wartosc));
 			printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 		}
 		else if(znak=='p'){
