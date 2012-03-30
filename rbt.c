@@ -47,6 +47,7 @@ wezel* LEFTROTATE(wezel *root, wezel *x){
 	y->p=x->p;  //ojcem y uczyn ojca x
 	if(x->p==&NIL)
 		root=y;
+
 	else {
 		if (x==x->p->left)
 			x->p->left=y;
@@ -61,24 +62,18 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 //  printf("robie rightroteate dla %d %d", root->key, x->key);
 	wezel *y=x->left;
 	x->left=y->right; //lewe poddrzewo na prawe
-	printf("x.left=%d \n", x->left->key);
 	if (y->right != &NIL)
 	  y->right->p=x;
 	y->p=x->p;  //ojcem y uczyn ojca x
-	printf("ojciec y i x to %d  %d \n",y->p->key, x->p->key );
-	if(x->p==&NIL){
-		printf("ojcem x jest NIL\n");
+	if(x->p==&NIL)
 	  root=y;
-	}
 	else {
 	  if (x==x->p->right)
 	    x->p->right=y;
 	  else x->p->left=y;
 	}
-
 	y->right=x;
 	x->p=y;
-	printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 	return root;
 }
 
@@ -88,7 +83,6 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 		if(x==x->p->left){
 			w=x->p->right;
 			if(w->kolor==RED){				//PRZYPADEK 1
-				printf("przypadek 1");
 				w->kolor=BLACK;				//PRZYPADEK 1
 				x->p->kolor=RED;			//PRZYPADEK 1
 				root=LEFTROTATE(root,x->p); //PRZYPADEK 1
@@ -97,17 +91,14 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 			if(w->left->kolor==BLACK && w->right->kolor==BLACK){
 				w->kolor=RED;				//PRZYPADEK 2
 				x=x->p;						//PRZYPADEK 2
-				printf("przypadek 2");
 			}
 			else{
 				if(w->right->kolor==BLACK){
-					printf("przypadek 3");
 					w->left->kolor=BLACK;	//PRZYPADEK 3
 					w->kolor=RED;			//PRZYPADEK 3
 					root=RIGHTROTATE(root,w);//PRZYPADEK 3
 					w=x->p->right;			//PRZYPADEK 3
 				}
-				printf("przypadek 4a \n");
 				w->kolor=x->p->kolor;		//PRZYPADEK 4
 				x->p->kolor=BLACK;			//PRZYPADEK 4
 				w->right->kolor=BLACK;		//PRZYPADEK 4
@@ -118,39 +109,31 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 		else{
 			w=x->p->left;
 			if(w->kolor==RED){
-				printf("przypadek 1");
 				w->kolor=BLACK;
 				x->p->kolor=RED;
 				root=RIGHTROTATE(root,x->p);
 				w=x->p->left;
 				}
 			if(w->right->kolor==BLACK && w->left->kolor==BLACK){
-				printf("przypadek 2");
 				w->kolor=RED;
 				x=x->p;
 			}
 			else{
 				if(w->left->kolor==BLACK){
-					printf("przypadek 3");
 					w->right->kolor=BLACK;
 					w->kolor=RED;
 					root=LEFTROTATE(root,w);
 					w=x->p->left;
 				}
-				printf("przypadek 4b \n");
 				w->kolor=x->p->kolor;
 				x->p->kolor=BLACK;
 				w->left->kolor=BLACK;
-				printf("root =%d, left(root)=%d ,left(left)(root)=%d \n" ,root->key, root->left->key, root->left->left->key);
 				root=RIGHTROTATE(root,x->p);
-				printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 				x=root;
-				printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 			}
 		}
 	}
 	x->kolor=BLACK;
-	printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 	return root;
 }
 //
@@ -183,7 +166,6 @@ wezel* RBDEL(wezel *root, wezel *z){
 	}
 	if(y->kolor==BLACK)
 		root=RBDELFIX(root,x);
-	printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 	return root;
 }
 
@@ -298,7 +280,7 @@ void wyswietl(wezel* root) {
 int main() {
 	int wartosc;
 	char znak;
-	wezel *root=&NIL, *zm=&NIL;
+	wezel *root=&NIL;
 	NIL.key=-1;
 	NIL.left=&NIL;
 	NIL.right=&NIL;
@@ -316,10 +298,9 @@ int main() {
 		if(znak=='-'){
 			scanf("%d",&wartosc);
 			root=RBDEL(root, TREESEARCH(root, wartosc));
-			printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
+
 		}
 		else if(znak=='p'){
-			printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 			printf("digraph G {\n");
 			wyswietl(root);
 			printf("}\n");
