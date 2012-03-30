@@ -61,11 +61,15 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 //  printf("robie rightroteate dla %d %d", root->key, x->key);
 	wezel *y=x->left;
 	x->left=y->right; //lewe poddrzewo na prawe
+	printf("x.left=%d \n", x->left->key);
 	if (y->right != &NIL)
 	  y->right->p=x;
 	y->p=x->p;  //ojcem y uczyn ojca x
-	if(x->p==&NIL)
+	printf("ojciec y i x to %d  &d \n",y->p->key, x->p->key );
+	if(x->p==&NIL){
+		printf("ojcem x jest NIL\n");
 	  root=y;
+	}
 	else {
 	  if (x==x->p->right)
 	    x->p->right=y;
