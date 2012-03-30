@@ -47,7 +47,6 @@ wezel* LEFTROTATE(wezel *root, wezel *x){
 	y->p=x->p;  //ojcem y uczyn ojca x
 	if(x->p==&NIL)
 		root=y;
-
 	else {
 		if (x==x->p->left)
 			x->p->left=y;
@@ -136,6 +135,7 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 				w->kolor=x->p->kolor;
 				x->p->kolor=BLACK;
 				w->left->kolor=BLACK;
+				printf("root =%d, left(root)=%d ,left(left)(root)=%d \n" ,root->key, root->left->key, root->left->left->key);
 				root=RIGHTROTATE(root,x->p);
 				x=root;
 			}
