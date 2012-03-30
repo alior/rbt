@@ -316,8 +316,10 @@ int main() {
 		if(znak=='-'){
 			scanf("%d",&wartosc);
 			zm=RBDEL(root, TREESEARCH(root, wartosc));
+			printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 		}
 		else if(znak=='p'){
+			printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 			printf("digraph G {\n");
 			wyswietl(root);
 			printf("}\n");
