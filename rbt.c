@@ -68,7 +68,7 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 	printf("ojciec y i x to %d  %d \n",y->p->key, x->p->key );
 	if(x->p==&NIL){
 		printf("ojcem x jest NIL\n");
-	  root=&y;
+	  root=y;
 	}
 	else {
 	  if (x==x->p->right)
