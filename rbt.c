@@ -304,8 +304,8 @@ int main() {
 			wyswietl(root);
 			printf("}\n");
 		}
-		else
-			printf("nieprawidlowa instrukcja");
+		if(znak!='p' && znak!='x' && znak!='+' && znak!='-')
+			printf("BLAD! nieprawidlowa instrukcja");
 	}
 	//printf("Narazie..");
 	return 0;
