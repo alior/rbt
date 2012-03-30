@@ -82,27 +82,27 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 	while(x!=root && x->kolor==BLACK){
 		if(x==x->p->left){
 			w=x->p->right;
-			if(w->kolor==RED){
-				w->kolor=BLACK;
-				x->p->kolor=RED;
-				root=LEFTROTATE(root,x->p);
+			if(w->kolor==RED){				//PRZYPADEK 1
+				w->kolor=BLACK;				//PRZYPADEK 1
+				x->p->kolor=RED;			//PRZYPADEK 1
+				root=LEFTROTATE(root,x->p); //PRZYPADEK 1
 				w=x->p->right;
 				}
 			if(w->left->kolor==BLACK && w->right->kolor==BLACK){
-				w->kolor=RED;
-				x=x->p;
+				w->kolor=RED;				//PRZYPADEK 2
+				x=x->p;						//PRZYPADEK 2
 			}
 			else{
 				if(w->right->kolor==BLACK){
-					w->left->kolor=BLACK;
-					w->kolor=RED;
-					root=RIGHTROTATE(root,w);
-					w=x->p->right;
+					w->left->kolor=BLACK;	//PRZYPADEK 3
+					w->kolor=RED;			//PRZYPADEK 3
+					root=RIGHTROTATE(root,w);//PRZYPADEK 3
+					w=x->p->right;			//PRZYPADEK 3
 				}
-				w->kolor=x->p->kolor;
-				x->p->kolor=BLACK;
-				w->right->kolor=BLACK;
-				root=LEFTROTATE(root,x->p);
+				w->kolor=x->p->kolor;		//PRZYPADEK 4
+				x->p->kolor=BLACK;			//PRZYPADEK 4
+				w->right->kolor=BLACK;		//PRZYPADEK 4
+				root=LEFTROTATE(root,x->p);	//PRZYPADEK 4
 				x=root;
 			}
 		}
@@ -159,10 +159,10 @@ wezel* RBDEL(wezel *root, wezel *z){
 	}
 	if(y!=z){
 		z->key=y->key;
-		z->left= y->left;
-		z->right= y->right;
+		//z->left= y->left;
+		//z->right= y->right;
 		z->kolor= y->kolor;
-		z->p= y->p;
+		//z->p= y->p;
 	}
 	if(y->kolor==BLACK)
 		root=RBDELFIX(root,x);
