@@ -102,7 +102,7 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 					root=RIGHTROTATE(root,w);//PRZYPADEK 3
 					w=x->p->right;			//PRZYPADEK 3
 				}
-				printf("przypadek 4");
+				printf("przypadek 4a \n");
 				w->kolor=x->p->kolor;		//PRZYPADEK 4
 				x->p->kolor=BLACK;			//PRZYPADEK 4
 				w->right->kolor=BLACK;		//PRZYPADEK 4
@@ -132,7 +132,7 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 					root=LEFTROTATE(root,w);
 					w=x->p->left;
 				}
-				printf("przypadek 4");
+				printf("przypadek 4b \n");
 				w->kolor=x->p->kolor;
 				x->p->kolor=BLACK;
 				w->left->kolor=BLACK;
