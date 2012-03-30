@@ -297,7 +297,6 @@ int main() {
 		if(znak=='-'){
 			scanf("%d",&wartosc);
 			zm=RBDEL(root, TREESEARCH(root, wartosc));
-			printf("usunalem %d \n", zm->key);
 		}
 		else if(znak=='p'){
 			printf("digraph G {\n");
