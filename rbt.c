@@ -136,7 +136,6 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 	x->kolor=BLACK;
 	return root;
 }
-//
 
 wezel* RBDEL(wezel *root, wezel *z){
 	wezel *x, *y;
@@ -300,11 +299,13 @@ int main() {
 			root=RBDEL(root, TREESEARCH(root, wartosc));
 
 		}
-		else if(znak=='p'){
+		if(znak=='p'){
 			printf("digraph G {\n");
 			wyswietl(root);
 			printf("}\n");
 		}
+		else
+			printf("nieprawidlowa instrukcja");
 	}
 	//printf("Narazie..");
 	return 0;
