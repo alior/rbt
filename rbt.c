@@ -138,7 +138,7 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 }
 //
 
-wezel* RBDEL(wezel *root, wezel *z){
+void RBDEL(wezel *root, wezel *z){
 	wezel *x, *y;
 	if(z->left==&NIL || z->right==&NIL)
 		y=z;
@@ -166,7 +166,6 @@ wezel* RBDEL(wezel *root, wezel *z){
 	}
 	if(y->kolor==BLACK)
 		root=RBDELFIX(root,x);
-	return y;
 }
 
 wezel* RBFIX(wezel *root, wezel *z){
@@ -280,7 +279,7 @@ void wyswietl(wezel* root) {
 int main() {
 	int wartosc;
 	char znak;
-	wezel *root=&NIL, *zm=&NIL;
+	wezel *root=&NIL;
 	NIL.key=-1;
 	NIL.left=&NIL;
 	NIL.right=&NIL;
@@ -297,7 +296,7 @@ int main() {
 		}
 		if(znak=='-'){
 			scanf("%d",&wartosc);
-			zm=RBDEL(root, TREESEARCH(root, wartosc));
+			RBDEL(root, TREESEARCH(root, wartosc));
 			//printf("usunalem %d \n", zm->key);
 		}
 		if(znak=='p'){
