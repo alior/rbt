@@ -83,6 +83,7 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 		if(x==x->p->left){
 			w=x->p->right;
 			if(w->kolor==RED){				//PRZYPADEK 1
+				printf("przypadek 1");
 				w->kolor=BLACK;				//PRZYPADEK 1
 				x->p->kolor=RED;			//PRZYPADEK 1
 				root=LEFTROTATE(root,x->p); //PRZYPADEK 1
@@ -91,14 +92,17 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 			if(w->left->kolor==BLACK && w->right->kolor==BLACK){
 				w->kolor=RED;				//PRZYPADEK 2
 				x=x->p;						//PRZYPADEK 2
+				printf("przypadek 2");
 			}
 			else{
 				if(w->right->kolor==BLACK){
+					printf("przypadek 3");
 					w->left->kolor=BLACK;	//PRZYPADEK 3
 					w->kolor=RED;			//PRZYPADEK 3
 					root=RIGHTROTATE(root,w);//PRZYPADEK 3
 					w=x->p->right;			//PRZYPADEK 3
 				}
+				printf("przypadek 4");
 				w->kolor=x->p->kolor;		//PRZYPADEK 4
 				x->p->kolor=BLACK;			//PRZYPADEK 4
 				w->right->kolor=BLACK;		//PRZYPADEK 4
@@ -109,22 +113,26 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 		else{
 			w=x->p->left;
 			if(w->kolor==RED){
+				printf("przypadek 1");
 				w->kolor=BLACK;
 				x->p->kolor=RED;
 				root=RIGHTROTATE(root,x->p);
 				w=x->p->left;
 				}
 			if(w->right->kolor==BLACK && w->left->kolor==BLACK){
+				printf("przypadek 2");
 				w->kolor=RED;
 				x=x->p;
 			}
 			else{
 				if(w->left->kolor==BLACK){
+					printf("przypadek 3");
 					w->right->kolor=BLACK;
 					w->kolor=RED;
 					root=LEFTROTATE(root,w);
 					w=x->p->left;
 				}
+				printf("przypadek 4");
 				w->kolor=x->p->kolor;
 				x->p->kolor=BLACK;
 				w->left->kolor=BLACK;
@@ -284,6 +292,7 @@ int main() {
 	NIL.key=-1;
 	NIL.left=&NIL;
 	NIL.right=&NIL;
+	NIL.kolor=BLACK;
 	//printf("Co chcesz zrobic? ");
 	while(znak!='x') {
 		scanf("%c", &znak);
