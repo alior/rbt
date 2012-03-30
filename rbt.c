@@ -78,7 +78,7 @@ wezel* RIGHTROTATE(wezel *root, wezel *x){
 
 	y->right=x;
 	x->p=y;
-	printf("root to %d, lewy=%d, prawy=%d",root->key, root->left->key, root->right->key);
+	printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 	return root;
 }
 
@@ -143,11 +143,14 @@ wezel *RBDELFIX(wezel*root, wezel *x){
 				w->left->kolor=BLACK;
 				printf("root =%d, left(root)=%d ,left(left)(root)=%d \n" ,root->key, root->left->key, root->left->left->key);
 				root=RIGHTROTATE(root,x->p);
+				printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 				x=root;
+				printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 			}
 		}
 	}
 	x->kolor=BLACK;
+	printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 	return root;
 }
 //
@@ -180,6 +183,7 @@ wezel* RBDEL(wezel *root, wezel *z){
 	}
 	if(y->kolor==BLACK)
 		root=RBDELFIX(root,x);
+	printf("root to %d, lewy=%d, prawy=%d \n",root->key, root->left->key, root->right->key);
 	return y;
 }
 
